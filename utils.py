@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import dash_bootstrap_components as dbc
 import plotly.express as px
-from multielo import MultiElo, Tracker
+import trueskill
 from gspread.client import Client
 from gspread.models import Spreadsheet, Worksheet
 from plotly.graph_objs import Figure
