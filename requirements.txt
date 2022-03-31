@@ -38,3 +38,4 @@ rsa==4.7.2
 six==1.15.0
 urllib3==1.26.5
 Werkzeug==1.0.1
+trueskill==0.4.5

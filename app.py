@@ -116,105 +116,6 @@ def current_elo_tab():
     ])
 
 
-def scenario_generator_tab():
-    return html.Div([
-        dcc.Markdown(children="""
-                     Edit Elo parameters and the game history to see how the Elo ratings would be affected.
-                     """),
-
-        dcc.Markdown(className="text-muted",
-                     children=f"""
-                     *K* controls how many Elo rating points are gained or lost in a single game. Larger
-                     *K* will result in larger changes after each game. This is a standard Elo parameter.
-                     (default = {config.DEFAULT_K_VALUE})
-                     """),
-
-        dcc.Markdown(className="text-muted",
-                     children=f"""
-                     *D* controls the estimated win probability of each player. *D* value of 400 means
-                     that a player with a 200-point Elo advantage wins ~75% of the time in a head-to-head
-                     matchup. *D* value of 200 means that player wins ~90% of the time. This is a standard
-                     Elo parameter. (default = {config.DEFAULT_D_VALUE})
-                     """),
-
-        dcc.Markdown(className="text-muted",
-                     children=f"""
-                     The score function base value controls how much more valuable it is to finish in a
-                     high place. Larger value means greater reward for finishing near the top. A value of
-                     *p* means that 1st place is worth approximately *p* times as much as 2nd, which is
-                     worth *p* times 3rd, and so on. This is a parameter I made up to generalize Elo to
-                     multiplayer games. (default = {config.DEFAULT_SCORING_FUNCTION_BASE})
-                     """),
-
-        dbc.Row(justify="center", align="center", children=[
-            dbc.Col(width=4, children=dbc.InputGroup(children=[
-                dbc.InputGroupAddon("K =", addon_type="prepend"),
-                dbc.Input(id="k-value", value=config.DEFAULT_K_VALUE,
-                          type="number", min=0, step=16)
-            ])),
-            dbc.Col(width=4, children=dbc.InputGroup(children=[
-                dbc.InputGroupAddon("D =", addon_type="prepend"),
-                dbc.Input(id="d-value", value=config.DEFAULT_D_VALUE,
-                          type="number", min=100, step=100)
-            ])),
-            dbc.Col(width=4, children=dbc.InputGroup(children=[
-                dbc.InputGroupAddon("score function base =", addon_type="prepend"),
-                dbc.Input(id="score-function-base", value=config.DEFAULT_SCORING_FUNCTION_BASE,
-                          type="number", min=1, max=5, step=0.05)
-            ])),
-        ]),
-
-        html.Br(),
-
-        dcc.Loading(dbc.Row(justify="center", align="start", children=[
-            dbc.Col(id="elo-scenario-table", width=5),
-            dbc.Col(width=7, children=[
-                dcc.Graph(id="elo-scenario-chart"),
-                dbc.Col(width=6, children=[
-                    dbc.Row(children=[
-                        daq.BooleanSwitch(id="time-step-toggle-input", on=True,
-                                          style={"margin-left": "20px", "margin-right": "10px"}),
-                        dcc.Markdown(className="text-muted",
-                                     children="use equally spaced time steps"),
-                        html.Div(id="time-step-null-output", hidden=True),
-                    ]),
-
-                    dbc.InputGroup(children=[
-                        dbc.InputGroupAddon("Minimum games played", addon_type="prepend"),
-                        dbc.Input(
-                            id="min-games-input",
-                            value=1,
-                            type="number",
-                            min=1,
-                            step=1,
-                        )
-                    ])
-                ]),
-            ]),
-        ])),
-
-        html.Br(),
-        html.Hr(),
-
-        section_header("Editable Game Result History"),
-
-        dbc.Row(justify="center", children=[
-            dbc.Col(children=[
-                DataTable(id="editable-table", editable=True, row_deletable=True)
-            ])
-        ]),
-
-        dbc.Row(justify="center", children=[
-            dbc.Button(
-                "add row",
-                id="editing-rows-button",
-                color="secondary",
-                n_clicks=0
-            )
-        ])
-    ])
-
-
 def win_probability_tab():
     return html.Div(children=[
         dbc.Row(children=[
@@ -242,8 +143,6 @@ def win_probability_tab():
 def render_content(tab_name: str):
     if tab_name == "tab-1":
         return current_elo_tab()
-    elif tab_name == "tab-2":
-        return scenario_generator_tab()
     elif tab_name == "tab-3":
         return win_probability_tab()
 
