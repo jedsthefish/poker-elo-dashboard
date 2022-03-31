@@ -7,7 +7,7 @@ from dash_table import DataTable
 from dash.dependencies import Input, Output, State
 import plotly.io as pio
 import pandas as pd
-from multielo import MultiElo
+import trueskill
 
 import argparse
 from typing import List
@@ -359,10 +359,9 @@ def create_win_probability_table(players: List[tuple]):
     player_ids = [x[0] for x in players]
     ratings = [x[1] for x in players]
 
-    elo = MultiElo(
+    elo = rate(
         k_value=config.DEFAULT_K_VALUE,
-        d_value=config.DEFAULT_D_VALUE,
-        score_function_base=config.DEFAULT_SCORING_FUNCTION_BASE,
+        d_value=config.DEFAULT_D_VALUE
     )
 
     result_mx = elo.simulate_win_probabilities(ratings, n_sim=int(1e5), seed=0)
