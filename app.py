@@ -7,7 +7,7 @@ from dash_table import DataTable
 from dash.dependencies import Input, Output, State
 import plotly.io as pio
 import pandas as pd
-from multielo import MultiElo
+from copiedMultielo import MultiElo
 
 import argparse
 from typing import List
